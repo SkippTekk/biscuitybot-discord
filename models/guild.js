@@ -33,6 +33,10 @@ const Guild = sequelize.define('guild', {
     ticketTranscripts: {
         type: Sequelize.STRING,
         allowNull: true
+    },
+    verifyRole: {
+        type: Sequelize.STRING,
+        allowNull: true
     }
 
 });

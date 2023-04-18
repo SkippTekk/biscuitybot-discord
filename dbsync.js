@@ -1,5 +1,7 @@
 const Guild = require('./models/guild');
 const Infraction = require('./models/infraction');
-
-Guild.sync({ alter: true }); // adds the new data in.
-Infraction.sync({ alter: true });
+const Logging = require('./models/logging');
+//alter adds, force is fresh. don't do force...
+Guild.sync({ alter: true });
+//Infraction.sync({ alter: true });
+//Logging.sync({ alter: true });

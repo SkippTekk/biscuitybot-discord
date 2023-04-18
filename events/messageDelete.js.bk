@@ -1,0 +1,45 @@
+const { EmbedBuilder } = require('discord.js');
+const Guild = require('../models/guild');
+const Logging = require('../models/logging');
+module.exports = {
+    name: 'messageDelete',
+    async execute(member, message) {
+        const dbGuild = await Guild.findOne({ where: { id: member.guild.id } });
+        const dbLogging = await Logging.findOne({ where: { id: member.guild.id } })
+
+
+        const mes = message.content;
+
+        if (!mes) return;
+
+        const channelID = dbGuild.logChannel
+        const mChannel = await member.guild.channels.cache.get(channelID);
+
+        if (dbLogging.deltedMessages === 0) {
+            console.log('message was deleted?')
+        } else {
+            const embed = new EmbedBuilder()
+                .setColor('Red')
+                .setTitle('Message Deletion')
+                .addFields(
+                    {
+                        Name: 'Message content',
+                        value: `${mes}`
+                    },
+                    {
+                        name: 'Message Channel',
+                        value: `${message.channel}`
+
+                    },
+                    {
+                        name: 'Deleted by',
+                        value: `doesn't work atm`
+                    },
+                )
+                .setFooter('Mod Logging System')
+
+            mChannel.send({ embeds: embed })
+        }
+
+    }
+}
