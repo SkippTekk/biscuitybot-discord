@@ -5,7 +5,7 @@ module.exports = {
     once: true,
     async execute(client) {
         console.log(`${client.user.tag} is loaded`);
-        client.user.setActivity('myself get coded', { type: ActivityType.Watching });
-        client.user.setStatus('dnd');
+        client.user.setActivity(`${client.guilds.cache.size}`, { type: ActivityType.Watching });
+        client.user.setStatus('online');
     }
 }
