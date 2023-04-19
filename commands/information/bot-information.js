@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ButtonStyle, ActionRowBuilder, ButtonBuilder } = require("discord.js");
 
 
 
@@ -51,8 +51,21 @@ module.exports = {
             .setFooter({ text: 'Bot proudly made by SkippTekk#6969' })
             .setTimestamp();
 
+
+        const button = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setLabel('Github!')
+                    .setStyle(ButtonStyle.Link)
+                    .setURL('https://github.com/SkippTekk/biscuitybot-discord'),
+                new ButtonBuilder()
+                    .setLabel('Bot Invite!')
+                    .setStyle(ButtonStyle.Link)
+                    .setURL('https://discord.com/api/oauth2/authorize?client_id=705062601964519554&permissions=8&scope=bot%20applications.commands'),
+            )
+
         await interaction.reply({
-            embeds: [embed],
+            embeds: [embed], components: [button],
             ephemeral: false
         })
     }
