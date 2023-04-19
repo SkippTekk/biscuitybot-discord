@@ -13,7 +13,7 @@ module.exports = {
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDMPermission(false),
-    async execute(interaction, member) {
+    async execute(interaction) {
         const channel = interaction.options.getChannel('channel');
 
         const button = new ActionRowBuilder()
