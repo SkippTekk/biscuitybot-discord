@@ -9,11 +9,11 @@ module.exports = {
                 .setName('channel')
                 .setDescription('what channel you want the verification process to be in?')
                 .setRequired(true)
-
         )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDMPermission(false),
     async execute(interaction) {
+        const dbGuild = await Guild.findOne({ where: { id: interaction.guild.id } });
         const channel = interaction.options.getChannel('channel');
 
         const button = new ActionRowBuilder()
@@ -25,7 +25,7 @@ module.exports = {
             )
         const verifyEmbded = new EmbedBuilder()
             .setTitle('Verficiation')
-            .setDescription('Clicking the button states you follow the rules set in this Guild.')
+            .setDescription(dbGuild.verifyRoleMessage)
             .setColor('Blue')
 
         let sendChannel = channel.send({
@@ -39,7 +39,6 @@ module.exports = {
         const collector = await interaction.channel.createMessageComponentCollector()
         collector.on('collect', async i => {
             await i.update({ embeds: [verifyEmbded], components: [button] })
-            const dbGuild = await Guild.findOne({ where: { id: interaction.guild.id } });
             const member = i.member;
             await member.roles.add(dbGuild.verifyRole);
 
