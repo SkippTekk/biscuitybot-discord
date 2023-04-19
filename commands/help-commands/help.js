@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -142,6 +142,8 @@ module.exports = {
             if (i.customId === 'page2') {
                 if (i.user.id !== interaction.user.id) {
                     return await i.reply({ content: `Sorry, only the user that ran the command can interact.`, ephemeral: true })
+                } else if (interaction.member.permissions.has(PermissionsBitField.ModerateMembers)) {
+                    return await i.reply({ content: `Sorry you don't got permission to view this.`, ephemeral: true })
                 }
                 await i.update({ embeds: [moderationEmbed], components: [button] })
             }
