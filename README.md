@@ -4,6 +4,9 @@
 
 Current functions of the bot
 
+# Help
+Gives the bots commands and explains on how to use them!  
+
 # Moderation
 Warning  
 Banning  
