@@ -10,7 +10,7 @@ const path = require('path');
 process.on('uncaughtException', (error, source) => {
     console.log(error);
 
-    client.channels.cache.get(process.env.BOT_LOGS).send(`Bot break report: \n \`\`\`javascript \n ${error} \`\`\`\n\`\`\`${source}\`\`\``)
+    client.channels.cache.get(process.env.BOT_LOGS).send("**Bot break report**: \n \`\`\`javascript \n" + error + "\`\`\`\n\`\`\`" + source + "\`\`\`")
 });
 
 

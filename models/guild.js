@@ -37,6 +37,11 @@ const Guild = sequelize.define('guild', {
     verifyRole: {
         type: Sequelize.STRING,
         allowNull: true
+    },
+    verifyRoleMessage: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'Clicking the button states you follow the rules set in this Guild.'
     }
 
 });

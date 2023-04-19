@@ -22,3 +22,4 @@ set-logs (logging doesn't work atm)
 set-welcome-channel  
 set-verify-role  
 activate-verify  
+set-verify-message
