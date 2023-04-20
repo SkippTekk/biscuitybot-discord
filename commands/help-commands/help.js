@@ -109,6 +109,26 @@ module.exports = {
             )
             .setTimestamp()
 
+        const ticketEmbed = new EmbedBuilder()
+            .setTitle('Ticket system Setup')
+            .setColor('Grey')
+            .setDescription('Helps you setup the ticket system!')
+            .addFields(
+                {
+                    name: '1) Create role',
+                    value: 'Create the role you want, then use /ticket-staff'
+                },
+                {
+                    name: '2) Setup the ticket locations',
+                    value: '/ticket-setup will guide you on the ticket create channel, and category ticket creations'
+                },
+                {
+                    name: '3) create the ticket channel',
+                    value: '/activate-ticket-system will be your final step. IF you ever get into **interaction failed** this will need to be re-ran'
+                }
+            )
+            .setTimestamp()
+
         const button = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
@@ -124,6 +144,10 @@ module.exports = {
                 new ButtonBuilder()
                     .setCustomId('page3')
                     .setLabel('Bot Setup')
+                    .setStyle(ButtonStyle.Success),
+                new ButtonBuilder()
+                    .setCustomId('page4')
+                    .setLabel('Ticket Setup')
                     .setStyle(ButtonStyle.Success)
             )
 
@@ -153,6 +177,12 @@ module.exports = {
                     return await i.reply({ content: `Sorry, only the user that ran the command can interact.`, ephemeral: true })
                 }
                 await i.update({ embeds: [setupEmbed], components: [button] })
+            }
+            if (i.customId === 'page4') {
+                if (i.user.id !== interaction.user.id) {
+                    return await i.reply({ content: `Sorry, only the user that ran the command can interact.`, ephemeral: true })
+                }
+                await i.update({ embeds: [ticketEmbed], components: [button] })
             }
         })
     }
