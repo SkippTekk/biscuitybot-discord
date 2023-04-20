@@ -23,13 +23,13 @@ module.exports = {
                     .setLabel('verify')
                     .setStyle(ButtonStyle.Success),
             )
-        const verifyEmbded = new EmbedBuilder()
+        const verifyEmbed = new EmbedBuilder()
             .setTitle('Verficiation')
             .setDescription(dbGuild.verifyRoleMessage)
             .setColor('Blue')
 
         let sendChannel = channel.send({
-            embeds: ([verifyEmbded]),
+            embeds: ([verifyEmbed]),
             components: [
                 new ActionRowBuilder().setComponents(
                     new ButtonBuilder().setCustomId('verify').setLabel('Verify').setStyle(ButtonStyle.Success),
@@ -38,7 +38,7 @@ module.exports = {
         });
         const collector = await interaction.channel.createMessageComponentCollector()
         collector.on('collect', async i => {
-            await i.update({ embeds: [verifyEmbded], components: [button] })
+            await i.update({ embeds: [verifyEmbed], components: [button] })
             const member = i.member;
             await member.roles.add(dbGuild.verifyRole);
 

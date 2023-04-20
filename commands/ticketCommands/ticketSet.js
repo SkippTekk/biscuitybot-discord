@@ -1,0 +1,37 @@
+const { SlashCommandBuilder, PermissionFlagsBits, ChannelType } = require("discord.js");
+const Ticket = require('../../models/ticket');
+
+module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('ticket-setup')
+        .setDescription('Sets up your ticket channel and creation category')
+        .addChannelOption(option => option
+            .setName('channel')
+            .setDescription('Where you want the welcome messages too?')
+            .addChannelTypes(ChannelType.GuildText)
+        )
+        .addChannelOption(option => option
+            .setName('category')
+            .setDescription('what category you want the tickets to spawn into')
+            .addChannelTypes(ChannelType.GuildCategory)
+        )
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDMPermission(false),
+
+    async execute(interaction) {
+        await interaction.deferReply({ ephemeral: false })
+        const { options } = interaction;
+
+        const channel = await options.getChannel('channel');
+        const category = await options.getChannel('category')
+        const [ticket] = await Ticket.findOrCreate({ where: { id: interaction.guild.id } })
+
+        if (!channel) await ticket.update({ ticketChannel: null, openTicket: null });
+        await ticket.update({ ticketChannel: channel.id, openTicket: category.id })
+
+
+        if (!channel) interaction.editReply(`Ticket settings wasn't set. Disabled.`)
+        else interaction.editReply(`Ticket channel is set too ${channel}, and the category is set too ${category}`)
+    }
+
+}

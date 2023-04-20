@@ -26,7 +26,7 @@ module.exports = {
         await guild.update({ verifyRoleMessage: channel.id })
 
         if (!channel) interaction.editReply(`Verify message wasn't changed.`)
-        else interaction.editReply(`Very message has been changed too \`\`\`${channel}\`\`\``)
+        else interaction.editReply(`Verify message has been changed too \`\`\`${channel}\`\`\``)
     }
 
 };
