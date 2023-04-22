@@ -151,7 +151,7 @@ module.exports = {
                     .setStyle(ButtonStyle.Success)
             )
 
-        const message = await interaction.reply({ embeds: [embed], components: [button] });
+        const message = await interaction.reply({ embeds: [embed], components: [button], ephemeral:true });
         const collector = await message.createMessageComponentCollector();
 
         collector.on('collect', async i => {
@@ -166,7 +166,7 @@ module.exports = {
             if (i.customId === 'page2') {
                 if (i.user.id !== interaction.user.id) {
                     return await i.reply({ content: `Sorry, only the user that ran the command can interact.`, ephemeral: true })
-                } else if (interaction.member.permissions.has(PermissionsBitField.ModerateMembers)) {
+                } else if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
                     return await i.reply({ content: `Sorry you don't got permission to view this.`, ephemeral: true })
                 }
                 await i.update({ embeds: [moderationEmbed], components: [button] })
