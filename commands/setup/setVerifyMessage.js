@@ -12,6 +12,11 @@ module.exports = {
             .setMinLength(1)
             .setMaxLength(255)
         )
+        .addRoleOption((option) =>
+            option
+                .setName('role')
+                .setDescription('Please create the role before running this! Otherwise select the role!')
+        )
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setDMPermission(false),
 
@@ -19,14 +24,15 @@ module.exports = {
         await interaction.deferReply({ ephemeral: false })
         const { options } = interaction;
 
-        const channel = await options.getString('message');
+        const message = await options.getString('message');
+        const role = await options.getRole('role')
         const [guild] = await Guild.findOrCreate({ where: { id: interaction.guild.id } })
 
-        if (!channel) await guild.update({ verifyRoleMessage: null });
-        await guild.update({ verifyRoleMessage: channel.id })
+        if (!message) await guild.update({ verifyRoleMessage: null, verifyRole: null });
+        await guild.update({ verifyRoleMessage: message.id, verifyRole:role.id })
 
-        if (!channel) interaction.editReply(`Verify message wasn't changed.`)
-        else interaction.editReply(`Verify message has been changed too \`\`\`${channel}\`\`\``)
+        if (!message) interaction.editReply(`Verify message wasn't changed.`)
+        else interaction.editReply(`Verify message has been changed too \`\`\`${message}\`\`\` with the ${role}`)
     }
 
 };
