@@ -23,6 +23,10 @@ module.exports = {
                 {
                     name: 'Bot Setup',
                     value: 'Gives you instructions on how to setup the bot you want!'
+                },
+                {
+                    name: 'What does * mean?',
+                    value: 'Box\'s with * are beta and work in progress'
                 }
             )
             .setTimestamp()
@@ -147,7 +151,7 @@ module.exports = {
                     .setStyle(ButtonStyle.Success),
                 new ButtonBuilder()
                     .setCustomId('page4')
-                    .setLabel('Ticket Setup')
+                    .setLabel('Ticket Setup *')
                     .setStyle(ButtonStyle.Success)
             )
 
