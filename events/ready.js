@@ -24,6 +24,6 @@ module.exports = {
             client.user.setActivity(status[random])
         }, 5000);
         console.log(`${client.user.tag} is loaded`);
-        client.user.setStatus('online');
+        client.user.setStatus('dnd');
     }
 }

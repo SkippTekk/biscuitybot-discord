@@ -17,7 +17,7 @@ module.exports = {
 
         const pingEmbed = new EmbedBuilder()
             .setColor('Blurple')
-            .setTitle('User Data detials')
+            .setTitle('User Data details')
             .addFields(
                 {
                     name: 'Targeted person',
@@ -30,11 +30,6 @@ module.exports = {
                     inline: true
                 },
                 {
-                    name: 'Account created',
-                    value: `${user.createdAtafsd}`,
-                    inline: true
-                },
-                {
                     name: 'User Roles',
                     value: `${member.roles.cache.sort((a, b) => b.position - a.position).map(role => role)}`,
                     inline: false,
@@ -43,10 +38,6 @@ module.exports = {
                     name: 'Joined this Guild',
                     value: `<t:${parseInt(member.joinedTimestamp / 1000)}:D>`,
                     inline: false
-                },
-                {
-                    name: 'Guild creation date',
-                    value: `<t:${parseInt(member.guild.createdAt()) / 1000}:D>`
                 }
             )
             .setTimestamp();

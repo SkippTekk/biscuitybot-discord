@@ -1,8 +1,8 @@
 {
-  "name": "biscuitbot",
+  "name": "biscuitybotdiscord",
   "version": "1.0.0",
   "description": "",
-  "main": "bot.js",
+  "main": "index.js",
   "scripts": {
     "start": "nodemon bot.js"
   },
@@ -10,13 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@devnote-dev/pterojs": "^2.2.1",
-    "discord.js": "^14.8.0",
+    "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
     "mysql2": "^3.2.3",
     "nodemon": "^2.0.22",
-    "parse-ms": "^3.0.0",
-    "sequelize": "^6.30.0",
-    "sqlite3": "^5.1.6"
+    "sequelize": "^6.31.0"
   }
 }
