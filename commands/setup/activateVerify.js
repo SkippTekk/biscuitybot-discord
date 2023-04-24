@@ -19,7 +19,7 @@ module.exports = {
         const button = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
-                    .setCustomId('button')
+                    .setCustomId('verify')
                     .setLabel('verify')
                     .setStyle(ButtonStyle.Success),
             )
@@ -32,15 +32,21 @@ module.exports = {
             embeds: ([verifyEmbed]),
             components: [
                 new ActionRowBuilder().setComponents(
-                    new ButtonBuilder().setCustomId('verify').setLabel('Verify').setStyle(ButtonStyle.Success),
+                    new ButtonBuilder().setCustomId('verify')
+                        .setLabel('Verify')
+                        .setStyle(ButtonStyle.Success),
                 ),
             ],
         });
         const collector = await interaction.channel.createMessageComponentCollector()
         collector.on('collect', async i => {
+            if (i.customId == 'verify') {
+                return interaction.reply({ content: 'test message', ephemeral: true })
+            }
             await i.update({ embeds: [verifyEmbed], components: [button] })
             const member = i.member;
             await member.roles.add(dbGuild.verifyRole);
+            await member.roles.remove(dbGuild.defaultRole);
 
         })
         if (!sendChannel) {

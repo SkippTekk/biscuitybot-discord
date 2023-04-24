@@ -27,12 +27,13 @@ module.exports = {
         });
         const channel = interaction.options.getChannel("channel");
 
-        const button = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-                .setCustomId("button")
-                .setLabel("Create a Ticket")
-                .setStyle(ButtonStyle.Success)
-        );
+        const create = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId('create')
+                    .setLabel("Create a Ticket")
+                    .setStyle(ButtonStyle.Success)
+            );
         const ticketEmbed = new EmbedBuilder()
             .setTitle("CreateTicket")
             .setDescription(dbTicket.ticketMessage)
@@ -42,17 +43,18 @@ module.exports = {
         let sendChannel = channel.send({
             embeds: [ticketEmbed],
             components: [
-                new ActionRowBuilder().setComponents(
-                    new ButtonBuilder()
-                        .setCustomId("createTicket")
-                        .setLabel("Create a ticket!")
-                        .setStyle(ButtonStyle.Success)
-                ),
+                new ActionRowBuilder()
+                    .setComponents(
+                        new ButtonBuilder()
+                            .setCustomId("createTicket")
+                            .setLabel("Create a ticket!")
+                            .setStyle(ButtonStyle.Success)
+                    ),
             ],
         });
         const collector = await interaction.channel.createMessageComponentCollector();
         collector.on("collect", async (i) => {
-            await i.deferUpdate({ embeds: [ticketEmbed], components: [button] });
+            await i.deferUpdate({ embeds: [ticketEmbed], components: [create] });
             const channel = await interaction.guild.channels.create({
                 name: `ticket-${i.user.tag}`,
                 type: ChannelType.GuildText,
@@ -84,12 +86,13 @@ module.exports = {
                 await i.reply('button works')
             }
 
-            const ticketButton = new ActionRowBuilder().addComponents(
-                new ButtonBuilder()
-                    .setCustomId("close-channel")
-                    .setLabel("Close")
-                    .setStyle(ButtonStyle.Danger)
-            );
+            const ticketButton = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId("close-channel")
+                        .setLabel("Close")
+                        .setStyle(ButtonStyle.Danger)
+                );
             const ticketCreate = new EmbedBuilder()
                 .setTitle(`${interaction.guild.name} Ticket system!`)
                 .setColor("Green")

@@ -1,28 +1,29 @@
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Collection } = require('discord.js');
 const fs = require('fs');
-const client = new Client({
-    intents: [GatewayIntentBits.Guilds]
-
-});
-
-client.commands = getCommands('./commands');
+const Guild = require('../models/guild')
 
 module.exports = {
     name: 'interactionCreate',
-    async execute(interaction) {
-        if (!interaction.isChatInputCommand()) return;
+    async execute(interaction, client) {
+        const dbGuild = await Guild.findOne({ where: { id: interaction.guild.id } });
+        if (interaction.isChatInputCommand()) {
 
-        let command = client.commands.get(interaction.commandName);
+            let command = client.commands.get(interaction.commandName);
 
-        try {
-            if (interaction.replied) return;
-            command.execute(interaction);
-        } catch (error) {
-            console.log(error);
-            interaction.reply('Sorry, command isn\'t working yet.')
+            try {
+                if (interaction.replied) return;
+                command.execute(interaction);
+            } catch (error) {
+                console.log(error);
+                interaction.reply({ content: 'Sorry, command isn\'t working yet.', ephemeral: true })
+            }
+        } else if (interaction.isButton()) {
+            if (interaction.customId.includes('verify')) {
+                return [interaction.member.roles.add(dbGuild.verifyRole), await interaction.member.roles.remove(dbGuild.defaultRole)]
+            }
         }
     }
-}
+};
 
 function getCommands(dir) {
     let commands = new Collection();

@@ -27,7 +27,7 @@ module.exports = {
         const [guild] = await Guild.findOrCreate({ where: { id: interaction.guild.id } })
 
         if (!channel) await guild.update({ welcomeChannelId: null, defaultRole: null });
-        await guild.update({ welcomeChannelId: channel.id, defaultRole:role.id })
+        await guild.update({ welcomeChannelId: channel.id, defaultRole: role.id })
 
         if (!channel) interaction.editReply(`Welcome channel isn't set. Disabled.`)
         else interaction.editReply(`Welcoming new humans in ${channel} with ${role} as the default role!`)

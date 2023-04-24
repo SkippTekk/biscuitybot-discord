@@ -5,7 +5,7 @@ const Infraction = sequelize.define('infraction', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
     },
     userId: {
         type: Sequelize.STRING,
@@ -32,7 +32,7 @@ const Infraction = sequelize.define('infraction', {
         type: Sequelize.INTEGER,
         allowNull: false,
         defaultValue: 0
-    },
+    }
 
 });
 
