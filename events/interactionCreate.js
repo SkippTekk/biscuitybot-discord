@@ -24,20 +24,6 @@ module.exports = {
                     .setLabel("Close")
                     .setStyle(ButtonStyle.Danger)
             );
-        const ticketYes = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId("closeYes")
-                    .setLabel("Yes")
-                    .setStyle(ButtonStyle.Danger)
-            );
-        const TicketNo = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId("closeNo")
-                    .setLabel("No")
-                    .setStyle(ButtonStyle.Success)
-            );
         const ticketCreate = new EmbedBuilder()
             .setTitle(`${interaction.guild.name} Ticket system!`)
             .setColor("Green")
