@@ -2,6 +2,7 @@ const Guild = require('../models/guild');
 module.exports = {
     name: 'guildMemberAdd',
     async execute(member) {
+        console.log('member joined')
         const dbGuild = await Guild.findOne({ where: { id: member.guild.id } });
         await member.roles.add(dbGuild.defaultRole);
 

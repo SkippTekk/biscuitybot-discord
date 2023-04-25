@@ -1,6 +1,9 @@
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('node:fs')
 
+const Guild = require('../models/guild')
+const Ticket = require('../models/ticket')
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds
@@ -12,15 +15,24 @@ client.commands = getCommands('./commands')
 module.exports = {
     name: 'interactionCreate',
     async execute(interaction) {
-        if (!interaction.isChatInputCommand()) return;
+        const dbGuild = await Guild.findOne({ where: { id: interaction.guild.id } });
+        const dbTicket = await Ticket.findOne({ where: { id: interaction.guild.id } });
+        if (interaction.isChatInputCommand()) {
+            let command = client.commands.get(interaction.commandName)
+            if (!command) {
+                console.log('No command found')
+                return;
+            }
+            try {
+                await command.execute(interaction)
+            } catch (error) {
+                console.log(`failed ${interaction.commandName}`)
+            }
+        } else if (interaction.isButton()) {
+            if (interaction.customId.includes('verify')) {
+                return [interaction.member.roles.add(dbGuild.verifyRole), await interaction.member.roles.remove(dbGuild.defaultRole)]
+            }
 
-        let command = client.commands.get(interaction.commandName)
-
-        try {
-            if (interaction.replied) return;
-            command.execute(interaction);
-        } catch (error) {
-            console.log(error);
         }
     }
 }
