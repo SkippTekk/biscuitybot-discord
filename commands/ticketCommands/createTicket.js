@@ -18,13 +18,6 @@ module.exports = {
         });
         const channel = interaction.options.getChannel("channel");
 
-        const create = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId('create')
-                    .setLabel("Create a Ticket")
-                    .setStyle(ButtonStyle.Success)
-            );
         const ticketEmbed = new EmbedBuilder()
             .setTitle("CreateTicket")
             .setDescription(dbTicket.ticketMessage)
@@ -42,67 +35,6 @@ module.exports = {
                             .setStyle(ButtonStyle.Success)
                     ),
             ],
-        });
-        const collector = await interaction.channel.createMessageComponentCollector();
-        collector.on("collect", async (i) => {
-            await i.deferUpdate({ embeds: [ticketEmbed], components: [create] });
-            const channel = await interaction.guild.channels.create({
-                name: `ticket-${i.user.tag}`,
-                type: ChannelType.GuildText,
-                parent: dbTicket.openTicket,
-                permissionOverwrites: [
-                    {
-                        id: i.user.id,
-                        allow: [
-                            PermissionsBitField.Flags.ViewChannel,
-                            PermissionsBitField.Flags.SendMessages,
-                            PermissionsBitField.Flags.AttachFiles,
-                        ],
-                    },
-                    {
-                        id: interaction.guild.id,
-                        deny: [PermissionsBitField.Flags.ViewChannel],
-                    },
-                    {
-                        id: dbTicket.staffId,
-                        allow: [
-                            PermissionsBitField.Flags.ViewChannel,
-                            PermissionsBitField.Flags.SendMessages,
-                            PermissionsBitField.Flags.ManageChannels,
-                        ],
-                    },
-                ],
-            });
-            if (i.customId === 'close-channel') {
-                await i.reply('button works')
-            }
-
-            const ticketButton = new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setCustomId("close-channel")
-                        .setLabel("Close")
-                        .setStyle(ButtonStyle.Danger)
-                );
-            const ticketCreate = new EmbedBuilder()
-                .setTitle(`${interaction.guild.name} Ticket system!`)
-                .setColor("Green")
-                .setDescription(
-                    `Thanks for creating a ticket ${i.user}, someone will get to you as soon as they can!`
-                );
-
-            channel.send({ embeds: [ticketCreate], components: [ticketButton] });
-
-            channel
-                .send({
-                    content: `<@&${dbTicket.staffId}>`,
-                })
-                .then((r) => r.delete());
-            channel
-                .send({
-                    content: `<@${i.user.id}>`,
-                })
-                .then((r) => r.delete());
         });
 
         if (!sendChannel) {

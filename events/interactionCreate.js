@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Collection, ChannelType, PermissionsBitField } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, ChannelType, PermissionsBitField, ActionRowBuilder, ButtonBuilder, EmbedBuilder, ButtonStyle } = require('discord.js');
 const fs = require('node:fs');
 
 const Guild = require('../models/guild');
@@ -17,6 +17,33 @@ module.exports = {
     async execute(interaction) {
         const dbGuild = await Guild.findOne({ where: { id: interaction.guild.id } });
         const dbTicket = await Ticket.findOne({ where: { id: interaction.guild.id } });
+        const ticketButton = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId("close-channel")
+                    .setLabel("Close")
+                    .setStyle(ButtonStyle.Danger)
+            );
+        const ticketYes = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId("closeYes")
+                    .setLabel("Yes")
+                    .setStyle(ButtonStyle.Danger)
+            );
+        const TicketNo = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setCustomId("closeNo")
+                    .setLabel("No")
+                    .setStyle(ButtonStyle.Success)
+            );
+        const ticketCreate = new EmbedBuilder()
+            .setTitle(`${interaction.guild.name} Ticket system!`)
+            .setColor("Green")
+            .setDescription(
+                `Thanks for creating a ticket ${interaction.user.tag}, someone will get to you as soon as they can!`
+            );
 
         if (interaction.isChatInputCommand()) {
             let command = client.commands.get(interaction.commandName)
@@ -62,8 +89,10 @@ module.exports = {
                                     ],
                                 },
                             ],
-                        })
-                    ]).then(channel => { const channelID = channel.id; client.channels.cache.get(channelID); channel.send({ content: 'this is a test message' }) })
+                        }).then(channel => { channel.send({ embeds: [ticketCreate], components: [ticketButton] }), channel.send({ content: `<@&${dbTicket.staffId}> <@${interaction.user.id}>` }).then((r) => r.delete()) })
+                    ])
+            } else if (interaction.customId.includes('close')) {
+                return interaction.channel.delete()
             }
 
         }
