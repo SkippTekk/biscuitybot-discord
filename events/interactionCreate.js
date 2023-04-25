@@ -1,7 +1,8 @@
-const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { Client, GatewayIntentBits, Collection, ChannelType, PermissionsBitField } = require('discord.js');
 const fs = require('node:fs');
 
 const Guild = require('../models/guild');
+const Ticket = require('../models/ticket')
 
 const client = new Client({
     intents: [
@@ -15,6 +16,7 @@ module.exports = {
     name: 'interactionCreate',
     async execute(interaction) {
         const dbGuild = await Guild.findOne({ where: { id: interaction.guild.id } });
+        const dbTicket = await Ticket.findOne({ where: { id: interaction.guild.id } })
         if (interaction.isChatInputCommand()) {
             let command = client.commands.get(interaction.commandName)
             if (!command) {
@@ -29,6 +31,36 @@ module.exports = {
         } else if (interaction.isButton()) {
             if (interaction.customId.includes('verify')) {
                 return interaction.reply({ content: 'Thanks for accepting the Rules!', ephemeral: true }, [interaction.member.roles.add(dbGuild.verifyRole), await interaction.member.roles.remove(dbGuild.defaultRole)])
+            } else if (interaction.customId.includes('createTicket')) {
+                return interaction.reply({ content: 'Ticket being created. Please hold.', ephemeral: true },
+                    [
+                        interaction.guild.channel.create({
+                            name: `ticket-${interaction.user.name}`,
+                            type: ChannelType.GuildText,
+                            permissionOverwrites: [
+                                {
+                                    id: interaction.user.name,
+                                    allow: [
+                                        PermissionsBitField.Flags.ViewChannel,
+                                        PermissionsBitField.Flags.SendMessages,
+                                        PermissionsBitField.Flags.AttachFiles,
+                                    ],
+                                },
+                                {
+                                    id: interaction.guild.id,
+                                    deny: [PermissionsBitField.Flags.ViewChannel],
+                                },
+                                {
+                                    id: dbTicket.staffId,
+                                    allow: [
+                                        PermissionsBitField.Flags.ViewChannel,
+                                        PermissionsBitField.Flags.SendMessages,
+                                        PermissionsBitField.Flags.ManageChannels,
+                                    ],
+                                },
+                            ],
+                        })
+                    ])
             }
 
         }
