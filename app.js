@@ -8,8 +8,9 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBit
 
 process.on('uncaughtException', (error, source) => {
     console.log(error);
+    const channel = client.channels.cache.get(process.env.BOT_ERRORS)
 
-    client.channels.cache.get(process.env.BOT_ERRORS).send("**Bot break report**: \n \`\`\`javascript \n" + error + "\`\`\`\n\`\`\`" + source + "\`\`\`")
+    channel.send("**Bot break report**: \n \`\`\`javascript \n" + error + "\`\`\`\n\`\`\`" + source + "\`\`\`")
 });
 
 

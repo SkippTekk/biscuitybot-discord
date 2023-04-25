@@ -5,7 +5,7 @@ const TicketSystem = require('./models/ticket');
 //alter adds, force is fresh. don't do force...
 
 
-Guild.sync({ force: true });
-Infraction.sync({ force: true });
-Logging.sync({ force: true });
-TicketSystem.sync({ force: true })
+Guild.sync({ alter: true });
+Infraction.sync({ alter: true });
+Logging.sync({ alter: true });
+TicketSystem.sync({ alter: true })
