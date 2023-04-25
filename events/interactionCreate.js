@@ -16,7 +16,8 @@ module.exports = {
     name: 'interactionCreate',
     async execute(interaction) {
         const dbGuild = await Guild.findOne({ where: { id: interaction.guild.id } });
-        const dbTicket = await Ticket.findOne({ where: { id: interaction.guild.id } })
+        const dbTicket = await Ticket.findOne({ where: { id: interaction.guild.id } });
+
         if (interaction.isChatInputCommand()) {
             let command = client.commands.get(interaction.commandName)
             if (!command) {
@@ -34,16 +35,18 @@ module.exports = {
             } else if (interaction.customId.includes('createTicket')) {
                 return interaction.reply({ content: 'Ticket being created. Please hold.', ephemeral: true },
                     [
-                        interaction.guild.channel.create({
-                            name: `ticket-${interaction.user.name}`,
+                        interaction.guild.channels.create({
+                            name: `ticket-${interaction.user.tag}`,
                             type: ChannelType.GuildText,
+                            parent: dbTicket.openTicket,
                             permissionOverwrites: [
                                 {
-                                    id: interaction.user.name,
+                                    id: interaction.user.id,
                                     allow: [
                                         PermissionsBitField.Flags.ViewChannel,
                                         PermissionsBitField.Flags.SendMessages,
                                         PermissionsBitField.Flags.AttachFiles,
+                                        PermissionsBitField.Flags.ReadMessageHistory,
                                     ],
                                 },
                                 {
@@ -60,7 +63,7 @@ module.exports = {
                                 },
                             ],
                         })
-                    ])
+                    ]).then(channel => { const channelID = channel.id; client.channels.cache.get(channelID); channel.send({ content: 'this is a test message' }) })
             }
 
         }
