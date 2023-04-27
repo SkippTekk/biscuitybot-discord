@@ -1,29 +1,25 @@
-const {
-  SlashCommandBuilder,
-  PermissionFlagsBits,
-  ChannelType,
-} = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits, ChannelType } = require("discord.js");
 const Ticket = require("../../models/ticket");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("ticket-setup")
     .setDescription("Sets up your ticket channel and creation category")
-    .addChannelOption((option) =>
+    .addChannelOption(option =>
       option
         .setName("channel")
         .setDescription("Where you want the welcome messages too?")
         .addChannelTypes(ChannelType.GuildText)
         .setRequired(true)
     )
-    .addChannelOption((option) =>
+    .addChannelOption(option =>
       option
         .setName("category")
         .setDescription("What category you want the tickets to spawn into")
         .addChannelTypes(ChannelType.GuildCategory)
         .setRequired(true)
     )
-    .addRoleOption((option) =>
+    .addRoleOption(option =>
       option
         .setName("role")
         .setDescription("Role for ticket creation pings.")

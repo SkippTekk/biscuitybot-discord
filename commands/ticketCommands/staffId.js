@@ -5,7 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('ticket-staff')
         .setDescription('Staff role you want to get pinged upon ticket creation')
-        .addRoleOption((option) =>
+        .addRoleOption(option =>
             option
                 .setName('role')
                 .setDescription('assign this role as your Staff Role')

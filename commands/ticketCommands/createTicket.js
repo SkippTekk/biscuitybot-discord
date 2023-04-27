@@ -4,7 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("activate-ticket-system")
         .setDescription("Activates the ticket system. USE /ticket-set FIRST please")
-        .addChannelOption((option) =>
+        .addChannelOption(option =>
             option
                 .setName("channel")
                 .setDescription("Where the ticket create message does.")

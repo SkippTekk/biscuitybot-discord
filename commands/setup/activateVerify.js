@@ -4,7 +4,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('activate-verify')
         .setDescription('Activates the verify AFTER you use /set-verify')
-        .addChannelOption((option) =>
+        .addChannelOption(option =>
             option
                 .setName('channel')
                 .setDescription('what channel you want the verification process to be in?')

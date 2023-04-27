@@ -12,7 +12,7 @@ module.exports = {
             .setMinLength(1)
             .setMaxLength(255)
         )
-        .addRoleOption((option) =>
+        .addRoleOption(option =>
             option
                 .setName('role')
                 .setDescription('Please create the role before running this! Otherwise select the role!')
@@ -29,7 +29,7 @@ module.exports = {
         const [guild] = await Guild.findOrCreate({ where: { id: interaction.guild.id } })
 
         if (!message) await guild.update({ verifyRoleMessage: null, verifyRole: null });
-        await guild.update({ verifyRoleMessage: message.id, verifyRole:role.id })
+        await guild.update({ verifyRoleMessage: message.id, verifyRole: role.id })
 
         if (!message) interaction.editReply(`Verify message wasn't changed.`)
         else interaction.editReply(`Verify message has been changed too \`\`\`${message}\`\`\` with the ${role}`)

@@ -4,6 +4,9 @@ module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
+        client.channels.cache
+            .get(process.env.GUILD_COUNT)
+            .setName(`Guilds - ${client.guilds.cache.size}`);
 
         let status = [
             {
