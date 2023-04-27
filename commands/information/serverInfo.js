@@ -7,6 +7,9 @@ module.exports = {
 
     async execute(interaction) {
         const owner = await interaction.guild.fetchOwner();
+        const members = await interaction.guild.memberCount
+        const bots = await interaction.guild.members.cache.filter(member => member.user.bot).size
+
         const serverEmbed = new EmbedBuilder()
             .setColor('Blurple')
             .setTitle('Guilds information.')
@@ -23,12 +26,12 @@ module.exports = {
                 },
                 {
                     name: 'Members Count',
-                    value: `${interaction.guild.memberCount}`,
+                    value: `${members - bots}`,
                     inline: true
                 },
                 {
                     name: 'Bot Count',
-                    value: `Coming later`,
+                    value: `${bots}`,
                     inline: true
                 },
                 {
