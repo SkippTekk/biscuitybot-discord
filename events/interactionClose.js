@@ -20,6 +20,7 @@ module.exports = {
                             value: `Thanks for creating a ticket with us! Here is your transcript`,
                         }
                     )
+                    .setFooter({ text: 'BiscuityBot Ticket System' })
                     .setTimestamp();
 
                 // or (if using typescript) import * as discordTranscripts from 'discord-html-transcripts';
