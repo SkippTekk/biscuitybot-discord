@@ -1,8 +1,5 @@
-const { Client, GatewayIntentBits, Collection, ChannelType, PermissionsBitField, ActionRowBuilder, ButtonBuilder, EmbedBuilder, ButtonStyle } = require('discord.js');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const fs = require('node:fs');
-
-const Guild = require('../models/guild');
-const Ticket = require('../models/ticket')
 
 const client = new Client({
     intents: [
@@ -15,21 +12,6 @@ client.commands = getCommands('./commands');
 module.exports = {
     name: 'interactionCreate',
     async execute(interaction) {
-        const dbGuild = await Guild.findOne({ where: { id: interaction.guild.id } });
-        const dbTicket = await Ticket.findOne({ where: { id: interaction.guild.id } });
-        const ticketButton = new ActionRowBuilder()
-            .addComponents(
-                new ButtonBuilder()
-                    .setCustomId("close-channel")
-                    .setLabel("Close")
-                    .setStyle(ButtonStyle.Danger)
-            );
-        const ticketCreate = new EmbedBuilder()
-            .setTitle(`${interaction.guild.name} Ticket system!`)
-            .setColor("Green")
-            .setDescription(
-                `Thanks for creating a ticket ${interaction.user.tag}, someone will get to you as soon as they can!`
-            );
 
         if (interaction.isChatInputCommand()) {
             let command = client.commands.get(interaction.commandName)
@@ -42,45 +24,6 @@ module.exports = {
             } catch (error) {
                 console.log(`failed ${interaction.commandName}`)
             }
-        } else if (interaction.isButton()) {
-            if (interaction.customId.includes('verify')) {
-                return interaction.reply({ content: 'Thanks for accepting the Rules!', ephemeral: true }, interaction.member.roles.add(dbGuild.verifyRole), interaction.member.roles.remove(dbGuild.defaultRole))
-            } else if (interaction.customId.includes('createTicket')) {
-                return interaction.reply({ content: 'Ticket being created. Please hold.', ephemeral: true },
-                    [
-                        interaction.guild.channels.create({
-                            name: `ticket-${interaction.user.tag}`,
-                            type: ChannelType.GuildText,
-                            parent: dbTicket.openTicket,
-                            permissionOverwrites: [
-                                {
-                                    id: interaction.user.id,
-                                    allow: [
-                                        PermissionsBitField.Flags.ViewChannel,
-                                        PermissionsBitField.Flags.SendMessages,
-                                        PermissionsBitField.Flags.AttachFiles,
-                                        PermissionsBitField.Flags.ReadMessageHistory,
-                                    ],
-                                },
-                                {
-                                    id: interaction.guild.id,
-                                    deny: [PermissionsBitField.Flags.ViewChannel],
-                                },
-                                {
-                                    id: dbTicket.staffId,
-                                    allow: [
-                                        PermissionsBitField.Flags.ViewChannel,
-                                        PermissionsBitField.Flags.SendMessages,
-                                        PermissionsBitField.Flags.ManageChannels,
-                                    ],
-                                },
-                            ],
-                        }).then(channel => { channel.send({ embeds: [ticketCreate], components: [ticketButton] }), channel.send({ content: `<@&${dbTicket.staffId}> <@${interaction.user.id}>` }).then((r) => r.delete()) })
-                    ])
-            } else if (interaction.customId.includes('close')) {
-                return interaction.channel.delete()
-            }
-
         }
     }
 };

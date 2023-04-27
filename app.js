@@ -6,6 +6,51 @@ const path = require('node:path')
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessages] });
 
 
+client.on('guildCreate', guild => {
+
+    client.channels.cache.get(process.env.GUILD_COUNT).setName(`Guilds: ${client.guilds.cache.size}`);
+
+    const guildCreateEmbed = new EmbedBuilder()
+        .setTitle('A new Guild added me!')
+        .setTimestamp()
+        .setColor('Green')
+        .addFields(
+            {
+                name: `Guilds Name`,
+                value: `${guild.name}`
+            },
+            {
+                name: 'Member count',
+                value: `${guild.memberCount}`
+            }
+        )
+
+    client.channels.cache.get(process.env.GUILD_ADD).send({ embeds: [guildCreateEmbed] })
+});
+
+
+client.on('guildDelete', guild => {
+
+    client.channels.cache.get(process.env.GUILD_COUNT).setName(`Guilds: ${client.guilds.cache.size}`);
+
+    const guildDeleteEmbed = new EmbedBuilder()
+        .setTitle('A guild removed me!')
+        .setTimestamp()
+        .setColor('Red')
+        .addFields(
+            {
+                name: `Guilds Name`,
+                value: `${guild.name}`
+            },
+            {
+                name: 'Member count',
+                value: `${guild.memberCount}`
+            }
+        )
+
+    client.channels.cache.get(process.env.GUILD_REMOVE).send({ embeds: [guildDeleteEmbed] })
+});
+
 process.on('uncaughtException', (error, source) => {
     console.log(error);
     const channel = client.channels.cache.get(process.env.BOT_ERRORS)
