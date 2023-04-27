@@ -54,8 +54,6 @@ module.exports = {
                             ],
                         }).then(channel => { channel.send({ embeds: [ticketCreate], components: [ticketButton] }), channel.send({ content: `<@&${dbTicket.staffId}> <@${interaction.user.id}>` }).then((r) => r.delete()) })
                     ])
-            } else if (interaction.customId.includes('close')) {
-                return interaction.channel.delete()
             }
         }
 
