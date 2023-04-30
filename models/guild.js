@@ -22,22 +22,6 @@ const Guild = sequelize.define('guild', {
         type: Sequelize.STRING,
         allowNull: true
     },
-    openTicket: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    ticketChannel: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    ticketArchives: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    ticketTranscripts: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
     verifyRole: {
         type: Sequelize.STRING,
         allowNull: true
