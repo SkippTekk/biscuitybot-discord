@@ -2,6 +2,10 @@ const Sequelize = require('sequelize');
 const sequelize = require('../utils/database.js');
 
 const Infraction = sequelize.define('infraction', {
+    guildName: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,

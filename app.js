@@ -3,6 +3,9 @@ const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
 const fs = require("node:fs");
 const path = require("node:path");
 
+const Guild = require('./models/guild');
+const Ticket = require('./models/ticket');
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -14,6 +17,12 @@ const client = new Client({
 });
 
 client.on("guildCreate", (guild) => {
+
+    Guild.create({ guildName: guild.name, id: guild.id, })
+    Ticket.create({ guildName: guild.name, id: guild.id, })
+
+
+
     client.channels.cache
         .get(process.env.GUILD_COUNT)
         .setName(`Guilds - ${client.guilds.cache.size}`);
@@ -39,6 +48,8 @@ client.on("guildCreate", (guild) => {
 });
 
 client.on("guildDelete", (guild) => {
+    Guild.destroy({ where: { guildName: guild.name } })
+    Ticket.destroy({ where: { guildName: guild.name } })
     client.channels.cache
         .get(process.env.GUILD_COUNT)
         .setName(`Guilds - ${client.guilds.cache.size}`);

@@ -2,6 +2,10 @@ const Sequelize = require('sequelize');
 const sequelize = require('../utils/database.js');
 
 const TicketSystem = sequelize.define('ticketSystem', {
+    guildName: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
     id: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -15,10 +19,6 @@ const TicketSystem = sequelize.define('ticketSystem', {
         allowNull: true,
     },
     openTicket: {
-        type: Sequelize.STRING,
-        allowNull: true,
-    },
-    transcripts: {
         type: Sequelize.STRING,
         allowNull: true,
     },
