@@ -1,10 +1,11 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
+const { Client, GatewayIntentBits, EmbedBuilder, time } = require("discord.js");
 const fs = require("node:fs");
 const path = require("node:path");
 
 const Guild = require('./models/guild');
 const Ticket = require('./models/ticket');
+
 
 const client = new Client({
     intents: [
@@ -12,7 +13,7 @@ const client = new Client({
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildPresences,
+        GatewayIntentBits.GuildPresences
     ],
 });
 
@@ -50,6 +51,7 @@ client.on("guildCreate", (guild) => {
 client.on("guildDelete", (guild) => {
     Guild.destroy({ where: { guildName: guild.name } })
     Ticket.destroy({ where: { guildName: guild.name } })
+
     client.channels.cache
         .get(process.env.GUILD_COUNT)
         .setName(`Guilds - ${client.guilds.cache.size}`);
@@ -73,6 +75,20 @@ client.on("guildDelete", (guild) => {
         .get(process.env.GUILD_REMOVE)
         .send({ embeds: [guildDeleteEmbed] });
 });
+
+client.on('messageDelete', async (message) => {
+    const dbLogChannel = await Guild.findOne({ where: { id: message.guild.id } });
+
+    client.channels.cache.get(dbLogChannel.logChannel).send({ content: `:regional_indicator_d: Message delete by ${message.author.tag} - ${message.content}` });
+
+});
+client.on('messageUpdate', async (messageOld, messageNew) => {
+
+    const dbMessageUpdate = await Guild.findOne({ where: { id: messageOld.guild.id } })
+
+    client.channels.cache.get(dbMessageUpdate.logChannel).send({ content: `:regional_indicator_e: Message edited. Old: \`\`\`${messageOld}\`\`\` New: \`\`\`${messageNew}\`\`\` ` })
+
+})
 
 process.on("uncaughtException", (error, source) => {
     console.log(error);

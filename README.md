@@ -37,3 +37,7 @@ set-verify-message
 # Ticket system
 
 Recently added so bare with me on it, use the /help command for more details until im done.
+
+# Logging
+Message deletes  
+Message edites
