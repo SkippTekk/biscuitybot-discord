@@ -82,6 +82,12 @@ client.on('messageDelete', async (message) => {
     client.channels.cache.get(dbLogChannel.logChannel).send({ content: `:regional_indicator_d: Message delete by ${message.author.tag} - ${message.content}` });
 
 });
+
+client.on('guildMemberRemove', async (member) => {
+    const dbLogChannel = await Guild.findOne({ where: { id: member.guild.id } });
+
+    client.channels.cache.get(dbLogChannel.logChannel).send({ content: `:regional_indicator_m::regional_indicator_r: ${member.user} Left.` });
+})
 client.on('messageUpdate', async (messageOld, messageNew) => {
 
     const dbMessageUpdate = await Guild.findOne({ where: { id: messageOld.guild.id } })

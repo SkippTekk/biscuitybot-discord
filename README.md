@@ -40,4 +40,6 @@ Recently added so bare with me on it, use the /help command for more details unt
 
 # Logging
 Message deletes  
-Message edites
+Message edites  
+User joines
+User Leaves

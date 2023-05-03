@@ -4,6 +4,8 @@ module.exports = {
     async execute(member) {
         const dbGuild = await Guild.findOne({ where: { id: member.guild.id } });
         await member.roles.add(dbGuild.defaultRole);
+        const channel = await member.guild.channels.fetch(dbGuild.logChannel)
+        channel.send(`:regional_indicator_m: New member has joined! ${member.user}`)
 
         if (dbGuild.welcomeChannelId) {
             const welcomeChannelId = await member.guild.channels.fetch(dbGuild.welcomeChannelId);
