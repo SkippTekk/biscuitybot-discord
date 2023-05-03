@@ -38,8 +38,10 @@ set-verify-message
 
 Recently added so bare with me on it, use the /help command for more details until im done.
 
-# Logging
+# Logging - possibly make it an option to disable some per server
 Message deletes  
 Message edites  
 User joines
 User Leaves
+Channel Created
+Channel Deleted

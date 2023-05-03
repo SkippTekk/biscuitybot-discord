@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, EmbedBuilder, time } = require("discord.js");
+const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
 const fs = require("node:fs");
 const path = require("node:path");
 
@@ -77,22 +77,36 @@ client.on("guildDelete", (guild) => {
 });
 
 client.on('messageDelete', async (message) => {
-    const dbLogChannel = await Guild.findOne({ where: { id: message.guild.id } });
+    const dbMessageDelete = await Guild.findOne({ where: { id: message.guild.id } });
 
-    client.channels.cache.get(dbLogChannel.logChannel).send({ content: `:regional_indicator_d: Message delete by ${message.author.tag} - ${message.content}` });
+    client.channels.cache.get(dbMessageDelete.logChannel).send({ content: `:regional_indicator_d: Message delete by ${message.author.tag} - ${message.content}` });
 
 });
 
 client.on('guildMemberRemove', async (member) => {
-    const dbLogChannel = await Guild.findOne({ where: { id: member.guild.id } });
+    const dbMemberLeave = await Guild.findOne({ where: { id: member.guild.id } });
 
-    client.channels.cache.get(dbLogChannel.logChannel).send({ content: `:regional_indicator_m::regional_indicator_r: ${member.user} Left.` });
+    client.channels.cache.get(dbMemberLeave.logChannel).send({ content: `:regional_indicator_m::regional_indicator_r: ${member.user} Left.` });
 })
 client.on('messageUpdate', async (messageOld, messageNew) => {
 
     const dbMessageUpdate = await Guild.findOne({ where: { id: messageOld.guild.id } })
 
     client.channels.cache.get(dbMessageUpdate.logChannel).send({ content: `:regional_indicator_e: Message edited. Old: \`\`\`${messageOld}\`\`\` New: \`\`\`${messageNew}\`\`\` ` })
+
+})
+client.on('channelCreate', async (channel) => {
+    console.log(channel.name)
+    const dbChannelCreate = await Guild.findOne({ where: { id: channel.guild.id } });
+
+    client.channels.cache.get(dbChannelCreate.logChannel).send({ content: `:regional_indicator_c::regional_indicator_m: ${channel.name} was created.` });
+
+})
+client.on('channelDelete', async (channel) => {
+    console.log(channel.name)
+    const dbChannelDelete = await Guild.findOne({ where: { id: channel.guild.id } });
+
+    client.channels.cache.get(dbChannelDelete.logChannel).send({ content: `:regional_indicator_c::regional_indicator_d: ${channel.name} was deleted.` });
 
 })
 
