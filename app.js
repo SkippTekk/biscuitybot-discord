@@ -96,14 +96,12 @@ client.on('messageUpdate', async (messageOld, messageNew) => {
 
 })
 client.on('channelCreate', async (channel) => {
-    console.log(channel.name)
     const dbChannelCreate = await Guild.findOne({ where: { id: channel.guild.id } });
 
     client.channels.cache.get(dbChannelCreate.logChannel).send({ content: `:regional_indicator_c::regional_indicator_m: ${channel.name} was created.` });
 
 })
 client.on('channelDelete', async (channel) => {
-    console.log(channel.name)
     const dbChannelDelete = await Guild.findOne({ where: { id: channel.guild.id } });
 
     client.channels.cache.get(dbChannelDelete.logChannel).send({ content: `:regional_indicator_c::regional_indicator_d: ${channel.name} was deleted.` });
