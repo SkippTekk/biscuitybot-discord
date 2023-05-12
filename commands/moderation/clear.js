@@ -16,12 +16,11 @@ module.exports = {
         ),
 
     async execute(interaction) {
-        const [channel, options] = interaction;
 
-        const amount = options.getInteger('amount')
-        const target = options.getUser('target')
+        const amount = interaction.options.getInteger('amount')
+        const target = interaction.options.getUser('target')
 
-        const messages = await channel.messages.fetch({
+        const messages = await interaction.channel.messages.fetch({
             limit: amount + 1,
         });
 
@@ -39,12 +38,12 @@ module.exports = {
                 }
             });
 
-            await channel.bulkDelete(filtered).then(messages => {
+            await interaction.channel.bulkDelete(filtered).then(messages => {
                 res.setDescription(`I have removed ${messages.size} messages from ${target}`);
                 interaction.reply({ embeds: [res] });
             })
         } else {
-            await channel.bulkDelete(amount, true).then(messages => {
+            await interaction.channel.bulkDelete(amount, true).then(messages => {
                 res.setDescription(`I have removed ${messages.size} messages.`);
                 interaction.reply({ embeds: [res] })
             })
