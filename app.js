@@ -93,7 +93,7 @@ client.on('messageUpdate', async (messageOld, messageNew) => {
 
     const dbMessageUpdate = await Guild.findOne({ where: { id: messageOld.guild.id } })
 
-    client.channels.cache.get(dbMessageUpdate.logChannel).send({ content: `:regional_indicator_e: Message edited. Old: \`\`\`${messageOld}\`\`\` New: \`\`\`${messageNew}\`\`\` ` })
+    client.channels.cache.get(dbMessageUpdate.logChannel).send({ content: `:regional_indicator_e: Message edited. \nOld: \`\`\`${messageOld}\`\`\` New: \`\`\`${messageNew}\`\`\` ` })
 
 })
 client.on('channelCreate', async (channel) => {
