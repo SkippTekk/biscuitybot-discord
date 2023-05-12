@@ -8,4 +8,4 @@ const Level = require('./models/level');
 //Guild.sync({ alter: true });
 //TicketSystem.sync({ alter: true })
 //Infraction.sync({ alter: true });
-Level.sync({ alter: true })
+//Level.sync({ alter: true })

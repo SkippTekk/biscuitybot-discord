@@ -13,11 +13,11 @@ const Infraction = sequelize.define('infraction', {
     },
     userId: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     guildId: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     reason: {
         type: Sequelize.STRING,
@@ -26,15 +26,15 @@ const Infraction = sequelize.define('infraction', {
     },
     enforcerId: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     type: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     duration: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         defaultValue: 0
     }
 
