@@ -90,6 +90,7 @@ client.on('guildMemberRemove', async (member) => {
 })
 client.on('messageUpdate', async (messageOld, messageNew) => {
     if (messageOld.author.bot) return;
+    if (messageOld === messageNew) return;
 
     const dbMessageUpdate = await Guild.findOne({ where: { id: messageOld.guild.id } })
 
