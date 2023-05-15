@@ -89,6 +89,7 @@ client.on('guildMemberRemove', async (member) => {
     client.channels.cache.get(dbMemberLeave.logChannel).send({ content: `:regional_indicator_m::regional_indicator_r: ${member.user} Left.` });
 })
 client.on('messageUpdate', async (messageOld, messageNew) => {
+    if (messageOld.author.bot) return;
     if (messageOld === messageNew) return;
 
     const dbMessageUpdate = await Guild.findOne({ where: { id: messageOld.guild.id } })
