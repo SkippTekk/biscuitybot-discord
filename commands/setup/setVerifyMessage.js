@@ -24,9 +24,9 @@ module.exports = {
         await interaction.deferReply({ ephemeral: false })
         const { options } = interaction;
 
-        const message = await options.getString('message');
-        const role = await options.getRole('role')
         const [guild] = await Guild.findOrCreate({ where: { id: interaction.guild.id } })
+        const message = await options.getString('message') ?? guild.verifyRoleMessage;
+        const role = await options.getRole('role')
 
         if (!message) await guild.update({ verifyRoleMessage: null, verifyRole: null });
         await guild.update({ verifyRoleMessage: message.id, verifyRole: role.id })
