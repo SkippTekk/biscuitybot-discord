@@ -1,16 +1,20 @@
 const { ActivityType } = require('discord.js');
 
+const Guild = require('../models/guild');
+
 module.exports = {
     name: 'ready',
     once: true,
     async execute(client) {
+
+        const GuildCount = await Guild.count();
         client.channels.cache
             .get(process.env.GUILD_COUNT)
             .setName(`Guilds - ${client.guilds.cache.size}`);
 
         let status = [
             {
-                name: `${client.guilds.cache.size} guilds!`,
+                name: `${GuildCount} guilds!`,
                 type: ActivityType.Watching,
             },
             {

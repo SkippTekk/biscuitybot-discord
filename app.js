@@ -1,5 +1,5 @@
 require("dotenv").config();
-const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
+const { Client, GatewayIntentBits, EmbedBuilder, InteractionCollector } = require("discord.js");
 const fs = require("node:fs");
 const path = require("node:path");
 
@@ -114,7 +114,7 @@ process.on("uncaughtException", (error, source) => {
     console.log(error);
     const channel = client.channels.cache.get(process.env.BOT_ERRORS);
 
-    channel.send("**Bot break report**: \n ```javascript \n" + error + "```\n```" + source + "```");
+    channel.send(`**Bot break report**: \n Server: ${client.guild} \n\`\`\`javascript \n" ${error} "\`\`\`\n\`\`\`"  ${source}  "\`\`\``);
 });
 
 const eventsPath = path.join(__dirname, "events");

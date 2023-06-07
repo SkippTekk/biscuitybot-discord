@@ -22,9 +22,9 @@ module.exports = {
         await interaction.deferReply({ ephemeral: false })
         const { options } = interaction;
 
+        const [guild] = await Guild.findOrCreate({ where: { id: interaction.guild.id } })
         const channel = await options.getChannel('channel');
         const role = await options.getRole('role')
-        const [guild] = await Guild.findOrCreate({ where: { id: interaction.guild.id } })
 
         if (!channel) await guild.update({ welcomeChannelId: null, defaultRole: null });
         await guild.update({ welcomeChannelId: channel.id, defaultRole: role.id })
