@@ -10,7 +10,7 @@ module.exports = {
         if (dbGuild.welcomeChannelId) {
             const welcomeChannelId = await member.guild.channels.fetch(dbGuild.welcomeChannelId);
             welcomeChannelId.send(`Welcome to the server ${member.user}, Be sure to check the rules and follow them!`)
-        } else {
+        } else if (dbGuild.welcomeChannelId === null) {
             return;
         }
     }
