@@ -50,7 +50,11 @@ module.exports = {
                 new ButtonBuilder()
                     .setCustomId('page4')
                     .setLabel('Ticket Setup *')
-                    .setStyle(ButtonStyle.Success)
+                    .setStyle(ButtonStyle.Success),
+                new ButtonBuilder()
+                    .setLabel('Need help?')
+                    .setStyle(ButtonStyle.Link)
+                    .setURL('https://discord.gg/Z2fr3PzdNB')
             )
 
         await interaction.reply({ embeds: [embed], components: [button], ephemeral: true });
