@@ -12,7 +12,7 @@ module.exports = {
       await member.roles.add(dbGuild.defaultRole);
 
       if (dbGuild.logChannel === null) {
-        return console.log(dbGuild.guildName + " - has no log channel.");
+        return;
       } else {
         const channel = await member.guild.channels.fetch(dbGuild.logChannel);
         channel.send(
