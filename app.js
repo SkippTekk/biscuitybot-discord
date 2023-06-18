@@ -78,7 +78,7 @@ client.on("messageDelete", async (message) => {
   });
 
   if (dbMessageDelete.logChannel === null) {
-    return console.log(dbMessageDelete.guildName + ' - doesn\'t have log set')
+    return;
   } else {
 
     client.channels.cache.get(dbMessageDelete.logChannel).send({
@@ -90,9 +90,14 @@ client.on("messageDelete", async (message) => {
 client.on("guildMemberRemove", async (member) => {
   const dbMemberLeave = await Guild.findOne({ where: { id: member.guild.id } });
 
-  client.channels.cache.get(dbMemberLeave.logChannel).send({
-    content: `:regional_indicator_m::regional_indicator_r: ${member.user} Left.`,
-  });
+  if (dbMemberLeave.logChannel === null) {
+    return;
+  } else {
+
+    client.channels.cache.get(dbMemberLeave.logChannel).send({
+      content: `:regional_indicator_m::regional_indicator_r: ${member.user} Left.`,
+    });
+  }
 });
 client.on("messageUpdate", async (messageOld, messageNew) => {
   if (messageOld.author.bot) return;
@@ -101,28 +106,40 @@ client.on("messageUpdate", async (messageOld, messageNew) => {
   const dbMessageUpdate = await Guild.findOne({
     where: { id: messageOld.guild.id },
   });
+  if (dbMessageUpdate.logChannel === null) {
+    return;
+  } else {
 
-  client.channels.cache.get(dbMessageUpdate.logChannel).send({
-    content: `:regional_indicator_e: Message edited. \nOld: \`\`\`${messageOld}\`\`\` New: \`\`\`${messageNew}\`\`\` `,
-  });
+    client.channels.cache.get(dbMessageUpdate.logChannel).send({
+      content: `:regional_indicator_e: Message edited. \nOld: \`\`\`${messageOld}\`\`\` New: \`\`\`${messageNew}\`\`\` `,
+    });
+  }
 });
 client.on("channelCreate", async (channel) => {
   const dbChannelCreate = await Guild.findOne({
     where: { id: channel.guild.id },
   });
+  if (dbChannelCreate === null) {
+    return;
+  } else {
 
-  client.channels.cache.get(dbChannelCreate.logChannel).send({
-    content: `:regional_indicator_c::regional_indicator_m: ${channel.name} was created.`,
-  });
+    client.channels.cache.get(dbChannelCreate.logChannel).send({
+      content: `:regional_indicator_c::regional_indicator_m: ${channel.name} was created.`,
+    });
+  }
 });
 client.on("channelDelete", async (channel) => {
   const dbChannelDelete = await Guild.findOne({
     where: { id: channel.guild.id },
   });
+  if (dbChannelDelete === null) {
+    return;
+  } else {
 
-  client.channels.cache.get(dbChannelDelete.logChannel).send({
-    content: `:regional_indicator_c::regional_indicator_d: ${channel.name} was deleted.`,
-  });
+    client.channels.cache.get(dbChannelDelete.logChannel).send({
+      content: `:regional_indicator_c::regional_indicator_d: ${channel.name} was deleted.`,
+    });
+  }
 });
 
 process.on("uncaughtException", (error, source) => {
