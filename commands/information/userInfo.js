@@ -43,12 +43,7 @@ module.exports = {
             .setTimestamp();
 
 
-        await interaction.reply(
-            {
-                embeds: [pingEmbed],
-                ephemeral: false
-            }
-        )
+        await interaction.reply({ embeds: [pingEmbed] })
     }
 
 }

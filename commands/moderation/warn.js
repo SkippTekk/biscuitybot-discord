@@ -1,12 +1,11 @@
-const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, PermissionsBitField, EmbedBuilder } = require('discord.js')
 const Infraction = require('../../models/infraction')
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('warn')
         .setDescription('Warns the user')
-        .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
-        .setDMPermission(false)
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.ModerateMembers)
         .addUserOption(option => option
             .setName('user')
             .setDescription('User you want to warn')

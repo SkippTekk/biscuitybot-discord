@@ -1,4 +1,4 @@
-const { ChannelType, PermissionsBitField, ActionRowBuilder, ButtonBuilder, EmbedBuilder, ButtonStyle } = require('discord.js');
+const { ChannelType, PermissionsBitField, ActionRowBuilder, ButtonBuilder, EmbedBuilder, ButtonStyle, MessageFlags } = require('discord.js');
 
 const Ticket = require('../models/ticket')
 
@@ -23,7 +23,7 @@ module.exports = {
             );
         if (interaction.isButton()) {
             if (interaction.customId.includes('createTicket')) {
-                return interaction.reply({ content: 'Ticket being created. Please hold.', ephemeral: true },
+                return interaction.reply({ content: 'Ticket being created. Please hold.', flags: MessageFlags.Ephemeral },
                     [
                         interaction.guild.channels.create({
                             name: `ticket-${interaction.user.tag}`,

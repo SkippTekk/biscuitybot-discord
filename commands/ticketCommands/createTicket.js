@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { SlashCommandBuilder, PermissionsBitField, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const Ticket = require("../../models/ticket");
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,8 +10,7 @@ module.exports = {
                 .setDescription("Where the ticket create message does.")
                 .setRequired(true)
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .setDMPermission(false),
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
     async execute(interaction) {
         const dbTicket = await Ticket.findOne({
             where: { id: interaction.guild.id },

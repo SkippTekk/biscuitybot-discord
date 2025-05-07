@@ -1,4 +1,4 @@
-const { EmbedBuilder, PermissionsBitField, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js')
+const { EmbedBuilder, PermissionsBitField, ButtonBuilder, ActionRowBuilder, ButtonStyle, MessageFlags } = require('discord.js')
 module.exports = {
     name: 'interactionCreate',
     async execute(interaction) {
@@ -124,24 +124,28 @@ module.exports = {
                 new ButtonBuilder()
                     .setCustomId('page4')
                     .setLabel('Ticket Setup *')
-                    .setStyle(ButtonStyle.Success)
+                    .setStyle(ButtonStyle.Success),
+                new ButtonBuilder()
+                    .setLabel('Need help?')
+                    .setStyle(ButtonStyle.Link)
+                    .setURL('https://discord.gg/Z2fr3PzdNB')
             )
         if (interaction.isButton()) {
             if (interaction.customId.includes('page1')) {
                 await interaction.update({ embeds: [userEmbed], components: [button] })
             } else if (interaction.customId.includes('page2')) {
                 if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
-                    return await interaction.reply({ content: `Sorry you don't got permission to view this.`, ephemeral: true })
+                    return await interaction.reply({ content: `Sorry you don't got permission to view this.`, flags: MessageFlags.Ephemeral })
                 }
                 await interaction.update({ embeds: [moderationEmbed], components: [button] })
             } else if (interaction.customId.includes('page3')) {
                 if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
-                    return await interaction.reply({ content: `Sorry you don't got permission to view this.`, ephemeral: true })
+                    return await interaction.reply({ content: `Sorry you don't got permission to view this.`, flags: MessageFlags.Ephemeral })
                 }
                 await interaction.update({ embeds: [setupEmbed], components: [button] })
             } else if (interaction.customId.includes('page4')) {
                 if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) {
-                    return await interaction.reply({ content: `Sorry you don't got permission to view this.`, ephemeral: true })
+                    return await interaction.reply({ content: `Sorry you don't got permission to view this.`, flags: MessageFlags.Ephemeral })
                 }
                 await interaction.update({ embeds: [ticketEmbed], components: [button] })
             }

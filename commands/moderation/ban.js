@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, PermissionsBitField, EmbedBuilder } = require("discord.js");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,8 +16,7 @@ module.exports = {
                 .setDescription('what\'s the reason foo')
                 .setRequired(true)
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
-        .setDMPermission(false),
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.KickMembers),
 
     async execute(interaction) {
         const user = interaction.options.getUser('target')

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
+const { SlashCommandBuilder, PermissionsBitField, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageFlags } = require('discord.js')
 const Guild = require('../../models/guild');
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,8 +10,7 @@ module.exports = {
                 .setDescription('what channel you want the verification process to be in?')
                 .setRequired(true)
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .setDMPermission(false),
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
     async execute(interaction) {
         const dbGuild = await Guild.findOne({ where: { id: interaction.guild.id } });
         const channel = interaction.options.getChannel('channel');
@@ -41,7 +40,7 @@ module.exports = {
         const collector = await interaction.channel.createMessageComponentCollector()
         collector.on('collect', async i => {
             if (i.customId == 'verify') {
-                return interaction.reply({ content: 'test message', ephemeral: true })
+                return interaction.reply({ content: 'test message', flags: MessageFlags.Ephemeral })
             }
             await i.update({ embeds: [verifyEmbed], components: [button] })
             const member = i.member;

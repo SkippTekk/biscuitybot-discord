@@ -64,10 +64,7 @@ module.exports = {
                     .setURL('https://discord.com/api/oauth2/authorize?client_id=705062601964519554&permissions=8&scope=bot%20applications.commands'),
             )
 
-        await interaction.reply({
-            embeds: [embed], components: [button],
-            ephemeral: false
-        })
+        await interaction.reply({ embeds: [embed], components: [button] })
     }
 
 }

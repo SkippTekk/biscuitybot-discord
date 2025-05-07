@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, ChannelType, } = require("discord.js");
+const { SlashCommandBuilder, PermissionsBitField, ChannelType, } = require("discord.js");
 const Ticket = require("../../models/ticket");
 
 module.exports = {
@@ -25,8 +25,7 @@ module.exports = {
         .setDescription("Role for ticket creation pings.")
         .setRequired(true)
     )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .setDMPermission(false),
+    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: false });

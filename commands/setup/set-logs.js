@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, ChannelType } = require("discord.js");
+const { SlashCommandBuilder, PermissionsBitField, ChannelType } = require("discord.js");
 const Guild = require('../../models/guild');
 
 module.exports = {
@@ -11,8 +11,7 @@ module.exports = {
             .addChannelTypes(ChannelType.GuildText)
             .setRequired(true)
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .setDMPermission(false),
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: false })

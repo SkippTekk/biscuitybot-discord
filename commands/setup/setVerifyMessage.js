@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const { SlashCommandBuilder, PermissionsBitField } = require("discord.js");
 const Guild = require('../../models/guild');
 
 module.exports = {
@@ -17,8 +17,7 @@ module.exports = {
                 .setName('role')
                 .setDescription('Please create the role before running this! Otherwise select the role!')
         )
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .setDMPermission(false),
+        .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
     async execute(interaction) {
         await interaction.deferReply({ ephemeral: false })
