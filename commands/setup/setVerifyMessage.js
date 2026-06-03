@@ -20,7 +20,6 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: false })
         const { options } = interaction;
 
         const [guild] = await Guild.findOrCreate({ where: { id: interaction.guild.id } })
@@ -30,8 +29,8 @@ module.exports = {
         if (!message) await guild.update({ verifyRoleMessage: null, verifyRole: null });
         await guild.update({ verifyRoleMessage: message.id, verifyRole: role.id })
 
-        if (!message) interaction.editReply(`Verify message wasn't changed.`)
-        else interaction.editReply(`Verify message has been changed too \`\`\`${message}\`\`\` with the ${role}`)
+        if (!message) interaction.editReply({content:`Verify message wasn't changed.`})
+        else interaction.editReply({content:`Verify message has been changed too \`\`\`${message}\`\`\` with the ${role}`})
     }
 
 };

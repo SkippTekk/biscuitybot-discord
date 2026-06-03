@@ -14,7 +14,6 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: false })
         const { options } = interaction;
 
         const channel = await options.getChannel('channel');
@@ -23,8 +22,8 @@ module.exports = {
         if (!channel) await guild.update({ logChannel: null });
         await guild.update({ logChannel: channel.id })
 
-        if (!channel) interaction.editReply(`Log channel didn't set.`)
-        else interaction.editReply(`Bot logging is set too ${channel}`)
+        if (!channel) interaction.reply({content:`Log channel didn't set.`})
+        else interaction.reply({content:`Bot logging is set too ${channel}`})
     }
 
 }

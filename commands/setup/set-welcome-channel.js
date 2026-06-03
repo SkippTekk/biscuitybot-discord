@@ -18,7 +18,6 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: false })
         const { options } = interaction;
 
         const [guild] = await Guild.findOrCreate({ where: { id: interaction.guild.id } })
@@ -28,8 +27,8 @@ module.exports = {
         if (!channel) await guild.update({ welcomeChannelId: null, defaultRole: null });
         await guild.update({ welcomeChannelId: channel.id, defaultRole: role.id })
 
-        if (!channel) interaction.editReply(`Welcome channel isn't set. Disabled.`)
-        else interaction.editReply(`Welcoming new humans in ${channel} with ${role} as the default role!`)
+        if (!channel) await interaction.reply({content: `Welcome channel isn't set. Disabled.`})
+        else await interaction.reply({content:`Welcoming new humans in ${channel} with ${role} as the default role!`})
     }
 
 }

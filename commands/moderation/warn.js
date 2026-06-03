@@ -20,7 +20,6 @@ module.exports = {
         ),
 
     async execute(interaction) {
-        await interaction.deferReply({ ephemeral: false });
 
         const { options, guild, user, member } = interaction;
 

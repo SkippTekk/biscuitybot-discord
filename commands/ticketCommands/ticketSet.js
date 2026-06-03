@@ -28,7 +28,6 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
 
   async execute(interaction) {
-    await interaction.deferReply({ ephemeral: false });
     const { options } = interaction;
 
     const channel = await options.getChannel("channel");
@@ -52,10 +51,8 @@ module.exports = {
     });
 
     if (!channel)
-      interaction.editReply(`Ticket settings wasn't set. Disabled.`);
+      interaction.reply({content:`Ticket settings wasn't set. Disabled.`});
     else
-      interaction.editReply(
-        `Ticket channel is set too ${channel}, and the category is set too ${category}, and your staff inside of tickets is ${role}`
-      );
+      interaction.reply({content:`Ticket channel is set too ${channel}, and the category is set too **${category}**, and your staff inside of tickets is ${role}`});
   },
 };

@@ -3,7 +3,7 @@ const { ActivityType } = require('discord.js');
 const Guild = require('../models/guild');
 
 module.exports = {
-    name: 'ready',
+    name: 'clientReady',
     once: true,
     async execute(client) {
 
